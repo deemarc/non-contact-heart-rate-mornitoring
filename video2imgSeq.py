@@ -25,7 +25,6 @@ import cv2
 import numpy as np
 import os
 import glob
-
 # Find OpenCV version
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 
@@ -62,13 +61,15 @@ for video in videos:
     num_img = int(round(fps*second))
     print("number of img: " + str(num_img))
 
-    for i in range(1,num_img+1):
+    frame_num = 0
+    while(True):
         ret, frame = cap.read()
-        output_filename = output_folder +'/'+ filename + '_' + str(i)+'.jpg'
+        if not ret: break
+        output_filename = output_folder +'/'+ filename + '_' + ('%04d' %frame_num)+'.jpg'
         print ('Creating...' + output_filename)
         cv2.imwrite(output_filename, frame)
+        frame_num += 1     
 
-    
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
