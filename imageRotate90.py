@@ -35,5 +35,5 @@ def imageRotataAll(path,degree):
         img.save(image)
 
 if __name__ == '__main__' :
-    imageRotataAll('./img/deemarc_62',90)
+    imageRotataAll('./img/deemarc_80',90)
         
