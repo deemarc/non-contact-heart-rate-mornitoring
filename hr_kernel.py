@@ -63,23 +63,26 @@ def colorSpaceCovert(img_in):
     
 #     return mean, median
 
-def cal_mm(img_in, skinMask, com3=True):
-    if com3:j
+def cal_mm(img_in, skinMask, com3=True, enb_skinMask = True):
+
+    if com3:
         n = 3
     else:
         n = 1
+
     mean = []   
     median = []
     for i in range(0,n):
         mean.append(np.mean(img_in[:,:,i]))
         median.append(np.median(img_in[:,:,i]))
     
-    # using skin mask as filter
-    for i in range(0, n):
-        cur_arr = img_in[:,:,i]
-        fil_arr = cur_arr[skinMask==1]
-        mean.append(np.mean(cur_arr))
-        median.append(np.median(cur_arr))
+    if enb_skinMask:
+        # using skin mask as filter
+        for i in range(0, n):
+            cur_arr = img_in[:,:,i]
+            fil_arr = cur_arr[skinMask==1]
+            mean.append(np.mean(fil_arr))
+            median.append(np.median(fil_arr))
 
     return mean, median
 
@@ -87,7 +90,7 @@ def kernel(img_in, seq_arr, cvRead=True):
     # finding roi
     # roi_img = roi_manual(img_in)
     roi_img = roi_faceDetect(img_in)
-    skinMask = skinDetector.detect(img_in)
+    skinMask = skinDetector.detect(roi_img)
     # colorspacCoversion
     img_dict = colorSpaceCovert(roi_img)
     # finding mean and median
