@@ -22,9 +22,9 @@ def detect(grayimg_src):
     # multiple cascades: https://github.com/Itseez/opencv/tree/master/data/haarcascades
 
     #https://github.com/Itseez/opencv/blob/master/data/haarcascades/haarcascade_frontalface_default.xml
-    face_cascade = cv2.CascadeClassifier('./haarcc/haarcascade_frontalface_default.xml')
+    face_cascade = cv2.CascadeClassifier('./detect_face/haarcascade_frontalface_default.xml')
     #https://github.com/Itseez/opencv/blob/master/data/haarcascades/haarcascade_eye.xml
-    eye_cascade = cv2.CascadeClassifier('./haarcc/haarcascade_eye.xml')
+    eye_cascade = cv2.CascadeClassifier('./detect_face/haarcascade_eye.xml')
     faces = face_cascade.detectMultiScale(grayimg_src, 1.3, 5)
     people = []
     for (x,y,w,h) in faces:
@@ -41,7 +41,7 @@ def detect(grayimg_src):
 
 
 if __name__ == '__main__':
-    imagesPath = glob.glob('./haarcc/*.jpg')
+    imagesPath = glob.glob('./detect_face/*.jpg')
     i = 0
     for imagePath in imagesPath:
         # note that opencv give out image in bgr format
