@@ -29,7 +29,8 @@ import glob
 (major_ver, minor_ver, subminor_ver) = (cv2.__version__).split('.')
 
 # get all the video from video_in folder
-videos = glob.glob('./video_in/*.mp4')
+videos = glob.glob('./video_in/*.avi')
+# videos = glob.glob('./video_in/*.mp4')
 
 try:
     if not os.path.exists('img'):
@@ -51,20 +52,24 @@ for video in videos:
     cap = cv2.VideoCapture(video)
     if int(major_ver)  < 3 :
         fps = cap.get(cv2.cv.CV_CAP_PROP_FPS)
+        total = int(cap.get(cv2.cv.CAP_PROP_FRAME_COUNT))
         print("Frames per second using video.get(cv2.cv.CV_CAP_PROP_FPS): {0}".format(fps))
     else :
         fps = cap.get(cv2.CAP_PROP_FPS)
+        total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         print("Frames per second using video.get(cv2.CAP_PROP_FPS) : {0}".format(fps))
 
-    #for now let's use just 1 second of video
-    second = 1
-    num_img = int(round(fps*second))
-    print("number of img: " + str(num_img))
-
+    # #for now let's use just 1 second of video
+    # second = 1
+    # num_img = int(round(fps*second))
+    print("fps: " + str(fps))
+    print("total frame: " + str(total))
     frame_num = 0
     while(True):
         ret, frame = cap.read()
-        if not ret: break
+        if not ret: 
+            print(ret)
+            break
         output_filename = output_folder +'/'+ filename + '_' + ('%04d' %frame_num)+'.jpg'
         print ('Creating...' + output_filename)
         cv2.imwrite(output_filename, frame)
